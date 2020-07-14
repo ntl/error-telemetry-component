@@ -26,7 +26,7 @@ module ErrorTelemetryComponent
       end
 
       def self.logger
-        @logger ||= Telemetry::Logger.build self
+        @logger ||= Log.build(self)
       end
     end
   end

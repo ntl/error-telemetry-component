@@ -4,16 +4,16 @@ module ErrorTelemetryComponent
       include Messaging::Handle
       include Messaging::StreamName
 
-      dependency :logger, Telemetry::Logger
+      include Log::Dependency
+
       dependency :store, Store
       dependency :writer, Messaging::Postgres::Write
 
       category :error
 
       def configure_dependencies
-        Telemetry::Logger.configure self
-        Store.configure self
-        Messaging::Postgres::Write.configure self
+        Store.configure(self)
+        Messaging::Postgres::Write.configure(self)
       end
 
       handle Messages::Commands::Record do |command|

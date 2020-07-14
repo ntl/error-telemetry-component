@@ -3,8 +3,9 @@ module ErrorTelemetryComponent
     include Messaging::StreamName
     include Messages::Events
 
-    dependency :telemetry, ::Telemetry
-    dependency :logger, ::Telemetry::Logger
+    include Log::Dependency
+    include Telemetry::Dependency
+
     dependency :clock, Clock::UTC
     dependency :raygun_post, RaygunClient::HTTP::Post
     dependency :store, Store
@@ -14,12 +15,10 @@ module ErrorTelemetryComponent
 
     def self.build
       new.tap do |instance|
-        ::Telemetry.configure instance
-        ::Telemetry::Logger.configure instance
         Clock::UTC.configure instance
-        RaygunClient::HTTP::Post.configure instance, :raygun_post
+        RaygunClient::HTTP::Post.configure(instance, attr_name: :raygun_post)
         Store.configure instance
-        Messaging::Postgres::Write.configure instance
+        Messaging::Postgres::Write.configure(instance)
       end
     end
 

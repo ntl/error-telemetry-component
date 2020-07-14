@@ -1,6 +1,8 @@
 require 'socket'
 
 require 'error_data'
+
+require 'dependency'; Dependency.activate
 require 'initializer'; Initializer.activate
 
 require 'error_telemetry_component/messages/commands/record'

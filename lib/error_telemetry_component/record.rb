@@ -2,7 +2,8 @@ module ErrorTelemetryComponent
   class Record
     include Messaging::StreamName
 
-    dependency :logger, Telemetry::Logger
+    include Log::Dependency
+
     dependency :clock, Clock::UTC
     dependency :identifier, Identifier::UUID::Random
     dependency :host_info, HostInfo
@@ -16,7 +17,6 @@ module ErrorTelemetryComponent
       error_data = convert_error(error)
 
       new(error_data, source).tap do |instance|
-        Telemetry::Logger.configure instance
         Clock::UTC.configure instance
         Identifier::UUID::Random.configure instance
         HostInfo.configure instance
