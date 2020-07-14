@@ -17,3 +17,6 @@ require 'error_telemetry_component/publish'
 require 'error_telemetry_component/handlers/record'
 require 'error_telemetry_component/handlers/recorded'
 require 'error_telemetry_component/convert_error_data'
+
+require 'error_telemetry_component/consumers'
+require 'error_telemetry_component/start'
