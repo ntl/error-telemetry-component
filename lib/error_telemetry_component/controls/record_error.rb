@@ -10,7 +10,7 @@ module ErrorTelemetryComponent
         record_error = ErrorTelemetryComponent::Record.build(error, source)
 
         substitutes.each do |name|
-          SubstAttr::Substitute.(name, record_error)
+          Dependency::Substitute.(name, record_error)
 
           if name == :host_info
             record_error.host_info.hostname = 'some hostname'

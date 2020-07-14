@@ -1,9 +1,10 @@
+require 'identifier/uuid/controls'
+require 'messaging/controls'
+
 require 'raygun_client/controls'
-require 'event_store/messaging/controls'
 
-require 'error_telemetry_component/client/controls'
+require 'error_telemetry_component/controls/load'
 
-require 'error_telemetry_component/controls/time'
 require 'error_telemetry_component/controls/id'
 require 'error_telemetry_component/controls/stream_name'
 require 'error_telemetry_component/controls/host'
