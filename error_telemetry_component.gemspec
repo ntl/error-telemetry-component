@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['The Eventide Project']
   s.email = 'opensource@eventide-project.org'
-  s.homepage = 'https://github.com/evt-archive/error-telemetry-component'
+  s.homepage = 'https://github.com/ntl/error-telemetry-component'
   s.licenses = ['MIT']
 
   s.require_paths = ['lib']
@@ -15,16 +15,10 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.2.3'
 
-  s.add_dependency 'evt-schema'
-  s.add_dependency 'evt-casing'
-  s.add_dependency 'evt-configure'
-  s.add_dependency 'evt-telemetry'
-  s.add_dependency 'evt-transform'
-  #s.add_dependency 'raygun_client'
-
   s.add_dependency 'eventide-postgres'
-
   s.add_dependency 'evt-component_host'
+
+  s.add_dependency 'ntl-raygun_client'
 
   s.add_development_dependency 'test_bench'
 end

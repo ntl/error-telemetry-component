@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['The Eventide Project']
   s.email = 'opensource@eventide-project.org'
-  s.homepage = 'https://github.com/evt-archive/error-telemetry-component'
+  s.homepage = 'https://github.com/ntl/error-telemetry-component'
   s.licenses = ['MIT']
 
   s.require_paths = ['lib']
@@ -26,10 +26,10 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.bindir = 'bin'
 
-  s.add_dependency 'evt-clock'
-  s.add_dependency 'evt-dependency'
-  s.add_dependency 'evt-error_data'
+  s.add_dependency 'evt-messaging-postgres'
 
-  s.add_dependency 'eventide-postgres'
+  s.add_dependency 'ntl-error_data'
+
+  s.add_development_dependency 'test_bench'
 end
 
