@@ -1,13 +1,7 @@
 .bundle/
-.ruby-version
-.ruby-gemset
-.rvmrc
 Gemfile.lock
-gems
-.DS_store
-*.log
-*scratch.*
-materials
 *.gem
+gems
+*sketch*
 *notes.*
-settings/raygun_client.json
+todo.md

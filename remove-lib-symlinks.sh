@@ -1,3 +1,3 @@
 source ./library-symlinks.sh
 
-symlink_lib 'mimic'
+remove_lib_symlinks 'mimic'
