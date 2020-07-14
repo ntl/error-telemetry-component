@@ -1,4 +1,4 @@
-require_relative './bench_init'
+require_relative './automated_init'
 
 context "Store" do
   writer = EventStore::Messaging::Writer.build

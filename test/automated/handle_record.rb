@@ -1,4 +1,4 @@
-require_relative './bench_init'
+require_relative './automated_init'
 
 context "Handle Record Command" do
   handler = ErrorTelemetryComponent::Handlers::Record.new

@@ -18,10 +18,13 @@ if ENV['LOAD_CLIENT'] == 'off'
   require_relative '../init'
 
   require 'error_telemetry_component/controls'
-else
-  require_relative '../client_init'
-
-  require 'error_telemetry/client/controls'
 end
+
+require_relative '../client_init'
+
+require 'test_bench'; TestBench.activate
+require 'pp'
+
+require 'error_telemetry/client/controls'
 
 include ErrorTelemetryComponent
