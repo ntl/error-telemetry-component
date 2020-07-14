@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'error_telemetry-client'
-  s.version = '0.1.0.0'
+  s.version = '0.1.0.1'
   s.summary = 'Interface for processes to interact with the error-telemetry component'
   s.description = ' '
 
