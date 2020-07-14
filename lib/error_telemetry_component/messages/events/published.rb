@@ -9,8 +9,8 @@ module ErrorTelemetryComponent
 
         module LogText
           module Completion
-            def self.call(event)
-              "Published error (Error ID: #{event.error_id})"
+            def self.call(published)
+              "Published error (Error ID: #{published.error_id})"
             end
           end
         end

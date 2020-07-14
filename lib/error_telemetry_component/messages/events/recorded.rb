@@ -13,22 +13,22 @@ module ErrorTelemetryComponent
 
         def self.build(data=nil)
           data ||= {}
-          Serialize::Read.instance(data, self)
+          Transform::Read.instance(data, self)
         end
 
         def to_h
-          Serialize::Write.raw_data(self)
+          Transform::Write.raw_data(self)
         end
 
         def lapsed?(now)
           elapsed_milliseconds(now) > self.class.effective_milliseconds
         end
 
-        module Serializer
+        module Transformer
           def self.raw_data(instance)
             data = instance.attributes
 
-            error_raw_data = Serialize::Write.raw_data(instance.error)
+            error_raw_data = Transform::Write.raw_data(instance.error)
             data[:error] = error_raw_data
 
             data

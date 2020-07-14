@@ -7,29 +7,30 @@ module ErrorTelemetryComponent
       include Log::Dependency
 
       dependency :store, Store
-      dependency :writer, Messaging::Postgres::Write
+      dependency :write, Messaging::Postgres::Write
 
       category :error
 
-      def configure_dependencies
+      def configure
         Store.configure(self)
         Messaging::Postgres::Write.configure(self)
       end
 
-      handle Messages::Commands::Record do |command|
-        version = store.get_version command.error_id
+      handle Messages::Commands::Record do |record|
+        error_id = command.error_id
 
-        if version != :no_stream
+        version = store.get_version(error_id)
+
+        if version != MessageStore::NoStream.version
+          logger.info(tag: :ignored) { "Command ignored (Command: #{record.message_type}, Error ID: #{error_id})" }
           return
         end
 
-        logger.todo "Remove special handling of error after event-store-messaging uses the serialize library [Nathan Ladd, Scott Bellware, Fri Feb 5 2016]"
-        event = Messages::Events::Recorded.proceed command, :exclude => [:error]
-        event.error = command.error
+        recorded = Messages::Events::Recorded.follow(record)
 
-        stream_name = stream_name(event.error_id)
+        stream_name = stream_name(error_id)
 
-        writer.write_initial event, stream_name
+        write.initial(recorded, stream_name)
       end
     end
   end

@@ -9,8 +9,8 @@ module ErrorTelemetryComponent
 
         module LogText
           module Completion
-            def self.call(event)
-              "Lapsed error - not published (Error ID: #{event.error_id})"
+            def self.call(lapsed)
+              "Lapsed error - not published (Error ID: #{lapsed.error_id})"
             end
           end
         end

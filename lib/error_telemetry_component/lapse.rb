@@ -3,7 +3,7 @@ module ErrorTelemetryComponent
     extend self
 
     def self.included(cls)
-      cls.extend EffectiveTime
+      cls.extend(EffectiveTime)
     end
 
     def elapsed_milliseconds(now)

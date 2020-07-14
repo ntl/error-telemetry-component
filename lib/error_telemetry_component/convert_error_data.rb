@@ -2,8 +2,8 @@ module ErrorTelemetryComponent
   module ConvertErrorData
     module RaygunData
       def self.call(recorded_event)
-        logger.trace "Converting recorded event to Raygun data"
-        logger.data "Recorded event: #{recorded_event.inspect}"
+        logger.trace { "Converting recorded event to Raygun data" }
+        logger.trace(tag: :data) { "Recorded event: #{recorded_event.inspect}" }
 
         data = RaygunClient::Data.new
 
@@ -19,8 +19,8 @@ module ErrorTelemetryComponent
         data.tags = Array(recorded_event.source)
         data.custom_data = { :error_id => recorded_event.error_id }
 
-        logger.debug "Converted recorded event to Raygun data"
-        logger.data "Raygun data: #{data.inspect}"
+        logger.debug { "Converted recorded event to Raygun data" }
+        logger.debug(tag: :data) { "Raygun data: #{data.inspect}" }
 
         data
       end

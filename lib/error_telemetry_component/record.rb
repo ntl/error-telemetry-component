@@ -7,7 +7,7 @@ module ErrorTelemetryComponent
     dependency :clock, Clock::UTC
     dependency :identifier, Identifier::UUID::Random
     dependency :host_info, HostInfo
-    dependency :writer, Messaging::Postgres::Write
+    dependency :write, Messaging::Postgres::Write
 
     initializer :error_data, :source
 
@@ -16,12 +16,14 @@ module ErrorTelemetryComponent
     def self.build(error, source=nil)
       error_data = convert_error(error)
 
-      new(error_data, source).tap do |instance|
-        Clock::UTC.configure instance
-        Identifier::UUID::Random.configure instance
-        HostInfo.configure instance
-        Messaging::Postgres::Write.configure instance
-      end
+      instance = new(error_data, source)
+
+      Clock::UTC.configure(instance)
+      Identifier::UUID::Random.configure(instance)
+      HostInfo.configure(instance)
+      Messaging::Postgres::Write.configure(instance)
+
+      instance
     end
 
     def self.call(error, source=nil)
@@ -30,7 +32,7 @@ module ErrorTelemetryComponent
     end
 
     def call
-      logger.trace "Recoding error"
+      logger.trace { "Recoding error" }
 
       command = Messages::Commands::Record.new
       command.error_id = identifier.get
@@ -46,7 +48,7 @@ module ErrorTelemetryComponent
 
       writer.write command, command_stream_name
 
-      logger.info "Recoded error (#{LogText::RecordCommand.(command)})"
+      logger.info { "Recoded error (#{LogText::RecordCommand.(command)})" }
 
       return command, command_stream_name
     end
