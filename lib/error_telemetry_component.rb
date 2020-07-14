@@ -1,6 +1,10 @@
-require 'raygun_client'
+require 'eventide/postgres'
 
 require 'initializer'; Initializer.activate
+
+require 'raygun_client'
+
+require 'error_telemetry_component/load'
 
 require 'error_telemetry_component/client'
 
