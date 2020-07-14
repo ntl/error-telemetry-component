@@ -7,7 +7,7 @@ context "Error Projection" do
 
     recorded = ErrorTelemetryComponent::Controls::Messages::Recorded.example
 
-    projection.apply recorded
+    projection.(recorded)
 
     context "Entity Data" do
       test "id" do
@@ -34,7 +34,7 @@ context "Error Projection" do
 
     published = ErrorTelemetryComponent::Controls::Messages::Published.example
 
-    projection.apply published
+    projection.(published)
 
     context "Entity Data" do
       test "published_time" do
@@ -49,7 +49,7 @@ context "Error Projection" do
 
     lapsed = ErrorTelemetryComponent::Controls::Messages::Lapsed.example
 
-    projection.apply lapsed
+    projection.(lapsed)
 
     context "Entity Data" do
       test "lapsed_time" do
