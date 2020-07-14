@@ -6,8 +6,6 @@ require 'raygun_client'
 
 require 'error_telemetry_component/load'
 
-require 'error_telemetry_component/client'
-
 require 'error_telemetry_component/lapse'
 require 'error_telemetry_component/messages/events/recorded'
 require 'error_telemetry_component/messages/events/published'
