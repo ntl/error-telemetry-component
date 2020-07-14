@@ -34,23 +34,23 @@ module ErrorTelemetryComponent
     def call
       logger.trace { "Recoding error" }
 
-      command = Messages::Commands::Record.new
-      command.error_id = identifier.get
-      command.hostname = host_info.hostname
+      record = Messages::Commands::Record.new
+      record.error_id = identifier.get
+      record.hostname = host_info.hostname
 
-      command.error = error_data
+      record.error = error_data
 
-      command.source = source
+      record.source = source
 
-      command.time = clock.iso8601
+      record.time = clock.iso8601
 
-      command_stream_name = command_stream_name(command.error_id)
+      command_stream_name = command_stream_name(record.error_id)
 
-      writer.write command, command_stream_name
+      write.(record, command_stream_name)
 
-      logger.info { "Recoded error (#{LogText::RecordCommand.(command)})" }
+      logger.info { "Recoded error (#{LogText::RecordCommand.(record)})" }
 
-      return command, command_stream_name
+      return record, command_stream_name
     end
 
     def self.convert_error(error)
@@ -59,8 +59,8 @@ module ErrorTelemetryComponent
 
     module LogText
       module RecordCommand
-        def self.call(command)
-          "Error ID: #{command.error_id}, Error Message: #{command.error.message}, Time: #{command.time}, Hostname: #{command.hostname}, Source: #{command.source})"
+        def self.call(record)
+          "Error ID: #{record.error_id}, Error Message: #{record.error.message}, Time: #{record.time}, Hostname: #{record.hostname}, Source: #{record.source})"
         end
       end
     end

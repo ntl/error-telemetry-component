@@ -10,20 +10,24 @@ module ErrorTelemetryComponent
         attribute :hostname
         attribute :error
 
+        def transform_write(data)
+          data[:error] = data.delete(:error).to_h
+        end
+=begin
         def self.build(data=nil)
           data ||= {}
-          Transform::Read.instance(data, self)
+          ::Transform::Read.instance(data, self)
         end
 
         def to_h
-          Transform::Write.raw_data(self)
+          ::Transform::Write.raw_data(self)
         end
 
         module Transformer
           def self.raw_data(instance)
             data = instance.attributes
 
-            error_raw_data = Transform::Write.raw_data(instance.error)
+            error_raw_data = ::Transform::Write.raw_data(instance.error)
             data[:error] = error_raw_data
 
             data
@@ -43,6 +47,7 @@ module ErrorTelemetryComponent
             instance
           end
         end
+=end
       end
     end
   end

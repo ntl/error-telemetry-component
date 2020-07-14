@@ -2,6 +2,5 @@
 Gemfile.lock
 *.gem
 gems
-*sketch*
-*notes.*
-todo.md
+settings/
+/test/package/installed

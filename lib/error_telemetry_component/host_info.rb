@@ -1,6 +1,6 @@
 module ErrorTelemetryComponent
   class HostInfo
-    configure :host_info
+    configure :host_info, factory_method: :new
 
     def hostname
       self.class.hostname
