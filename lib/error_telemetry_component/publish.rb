@@ -79,7 +79,7 @@ module ErrorTelemetryComponent
     def record_published_event(recorded_event)
       logger.trace { "Recording published event (#{LogText::RecordedEvent.(recorded_event)})" }
 
-      event = Published.proceed(recorded_event, copy: [
+      event = Published.follow(recorded_event, copy: [
         :error_id
       ])
 
@@ -87,7 +87,7 @@ module ErrorTelemetryComponent
 
       event_stream_name = stream_name(event.error_id)
 
-      writer.write event, event_stream_name
+      write.(event, event_stream_name)
       telemetry.record :wrote_event, Telemetry::EventData.new(event, event_stream_name)
 
       logger.debug { "Recorded published event (Error ID: #{event.error_id}, Published Time: #{event.time})" }
@@ -106,7 +106,7 @@ module ErrorTelemetryComponent
 
       event_stream_name = stream_name(event.error_id)
 
-      writer.write event, event_stream_name
+      write.(event, event_stream_name)
       telemetry.record :wrote_event, Telemetry::EventData.new(event, event_stream_name)
 
       logger.debug { "Recorded lapsed event (Error ID: #{event.error_id}, Lapsed Time: #{event.time})" }
@@ -145,7 +145,7 @@ module ErrorTelemetryComponent
 
       module RecordedEvent
         def self.call(recorded_event)
-          "Error ID: #{recorded_event.error_id}, Error Message: #{recorded_event.error[:message]}, Time: #{recorded_event.time}, Hostname: #{recorded_event.hostname})"
+          "Error ID: #{recorded_event.error_id}, Error Message: #{recorded_event.error.message}, Time: #{recorded_event.time}, Hostname: #{recorded_event.hostname})"
         end
       end
     end

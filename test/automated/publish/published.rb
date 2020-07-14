@@ -2,57 +2,57 @@ require_relative '../automated_init'
 
 context "Publish" do
   context "Published" do
-    context "Publish an Error to Raygun" do
-      time = ErrorTelemetryComponent::Controls::LapseTime.example
-      recorded_event = ErrorTelemetryComponent::Controls::Messages::Recorded.example(time: time)
+    time = ErrorTelemetryComponent::Controls::LapseTime.example
+    recorded_event = ErrorTelemetryComponent::Controls::Messages::Recorded.example(time: time)
 
-      substitute = [:clock, :writer, :raygun_post, :store]
-      publish_error = ErrorTelemetryComponent::Controls::PublishError.example(substitute: substitute)
+    error_id = recorded_event.error_id or fail
 
-      publish_error.clock.now = Time.parse(time)
+    publish = Publish.new
 
-      writer = publish_error.writer
+    publish.clock.now = Clock.parse(time)
 
-      raygun_post = publish_error.raygun_post
-      raygun_sink = RaygunClient::HTTP::Post.register_telemetry_sink(raygun_post)
+    raygun_post = publish.raygun_post
+    raygun_sink = RaygunClient::HTTP::Post.register_telemetry_sink(raygun_post)
 
-      publish_error.(recorded_event)
+    publish.(recorded_event)
 
-      test "Sends the error to Raygun" do
-        control_data = ErrorTelemetryComponent::Controls::RaygunData.example(time: time)
+    test "Sends the error to Raygun" do
+      control_data = ErrorTelemetryComponent::Controls::RaygunData.example(time: time)
 
-        assert raygun_sink do
-          posted? do |data|
-            data == control_data
-          end
-        end
+      posted = raygun_sink.posted? do |data|
+        data == control_data
       end
 
-      test "Writes the published event" do
-        published_event_control = ErrorTelemetryComponent::Controls::Messages::Published.example(time: time)
-        published_stream_name = ErrorTelemetryComponent::Controls::StreamName.get('error', published_event_control.error_id, random: false)
-
-        assert writer do
-          written? do |event, stream_name|
-            event.attributes == published_event_control.attributes &&
-              stream_name == published_stream_name
-          end
-        end
-      end
+      assert(posted)
     end
 
-    test "Does not republish an error that has already been published" do
-      recorded_event = ErrorTelemetryComponent::Controls::Messages::Recorded.example
-      entity = ErrorTelemetryComponent::Controls::Entity::Finished.example
+    context "Published Event" do
+      writer = publish.write
 
-      substitute = [:clock, :writer, :raygun_post, :store]
-      publish_error = ErrorTelemetryComponent::Controls::PublishError.example(substitute: substitute)
-      publish_error.store.add recorded_event.error_id, entity
+      published = writer.one_message do |event|
+        event.instance_of?(Messages::Events::Published)
+      end
 
-      publish_error.(recorded_event)
+      test "Written" do
+        refute(published.nil?)
+      end
 
-      assert publish_error.writer do
-        writes.none?
+      test "Written to the error stream" do
+        written_to_stream = writer.written?(published) do |stream_name|
+          stream_name == "error-#{error_id}"
+        end
+
+        assert(written_to_stream)
+      end
+
+      context "Attributes" do
+        test "error_id" do
+          assert(published.error_id == error_id)
+        end
+
+        test "time" do
+          assert(published.time == time)
+        end
       end
     end
   end

@@ -32,14 +32,6 @@ context "Handle Record Command" do
       assert(written_to_stream)
     end
 
-    test "Writes the initial message" do
-      initial_message_written = writer.written?(recorded) do |_, expected_version|
-        expected_version == MessageStore::NoStream.name
-      end
-
-      assert(initial_message_written)
-    end
-
     context "Attributes" do
       test "error_id" do
         assert(recorded.error_id == error_id)

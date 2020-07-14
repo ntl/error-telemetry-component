@@ -1,6 +1,7 @@
 module ErrorTelemetryComponent
   module Controls
     module PublishError
+      # TODO - remove
       def self.example(error_id=nil, substitute: nil, recorded_event: nil)
         error_id ||= Controls::ID.example
         substitutes = Array(substitute)
