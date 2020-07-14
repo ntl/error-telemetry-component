@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Publish" do
-  context "Recorded event has lapsed" do
+  context "Recorded Event Has Sapsed" do
     recorded_event = ErrorTelemetryComponent::Controls::Messages::Recorded::Lapsed.example
 
     now = ErrorTelemetryComponent::Controls::LapseTime::Raw.later
