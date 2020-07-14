@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
 
   s.authors = ['The Eventide Project']
   s.email = 'opensource@eventide-project.org'
-  s.homepage = 'https://github.com/eventide-project/telemetry'
-  s.licenses = ['Not licensed for public use']
+  s.homepage = 'https://github.com/evt-archive/error-telemetry-component'
+  s.licenses = ['MIT']
 
   s.require_paths = ['lib']
   s.files = Dir.glob('{lib}/**/*')

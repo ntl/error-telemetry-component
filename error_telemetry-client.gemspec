@@ -1,14 +1,14 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
-  s.name = 'error_telemetry_component-client'
+  s.name = 'error_telemetry-client'
   s.version = '0.1.0.0'
   s.summary = 'Interface for processes to interact with the error-telemetry component'
   s.description = ' '
 
   s.authors = ['The Eventide Project']
   s.email = 'opensource@eventide-project.org'
-  s.homepage = 'https://github.com/eventide-project/sms-gateway'
-  s.licenses = ['Not licensed for public use']
+  s.homepage = 'https://github.com/evt-archive/error-telemetry-component'
+  s.licenses = ['MIT']
 
   s.require_paths = ['lib']
 
