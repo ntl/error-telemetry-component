@@ -2,7 +2,7 @@ module ErrorTelemetryComponent
   module Messages
     module Events
       class Recorded
-        include EventStore::Messaging::Message
+        include Messaging::Message
         include Lapse
 
         attribute :error_id

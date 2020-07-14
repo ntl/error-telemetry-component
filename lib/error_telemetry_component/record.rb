@@ -1,12 +1,12 @@
 module ErrorTelemetryComponent
   class Record
-    include EventStore::Messaging::StreamName
+    include Messaging::StreamName
 
     dependency :logger, Telemetry::Logger
     dependency :clock, Clock::UTC
     dependency :identifier, Identifier::UUID::Random
     dependency :host_info, HostInfo
-    dependency :writer, EventStore::Messaging::Writer
+    dependency :writer, Messaging::Postgres::Write
 
     initializer :error_data, :source
 
@@ -20,7 +20,7 @@ module ErrorTelemetryComponent
         Clock::UTC.configure instance
         Identifier::UUID::Random.configure instance
         HostInfo.configure instance
-        EventStore::Messaging::Writer.configure instance
+        Messaging::Postgres::Write.configure instance
       end
     end
 

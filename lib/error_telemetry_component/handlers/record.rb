@@ -1,19 +1,19 @@
 module ErrorTelemetryComponent
   module Handlers
     class Record
-      include EventStore::Messaging::Handler
-      include EventStore::Messaging::StreamName
+      include Messaging::Handle
+      include Messaging::StreamName
 
       dependency :logger, Telemetry::Logger
       dependency :store, Store
-      dependency :writer, EventStore::Messaging::Writer
+      dependency :writer, Messaging::Postgres::Write
 
       category :error
 
       def configure_dependencies
         Telemetry::Logger.configure self
         Store.configure self
-        EventStore::Messaging::Writer.configure self
+        Messaging::Postgres::Write.configure self
       end
 
       handle Messages::Commands::Record do |command|

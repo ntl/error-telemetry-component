@@ -1,5 +1,5 @@
 module ErrorTelemetryComponent
   module Controls
-    StreamName = EventStore::Messaging::Controls::StreamName
+    StreamName = Messaging::Controls::StreamName
   end
 end

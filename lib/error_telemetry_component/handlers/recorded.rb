@@ -1,18 +1,18 @@
 module ErrorTelemetryComponent
   module Handlers
     class Recorded
-      include EventStore::Messaging::Handler
-      include EventStore::Messaging::StreamName
+      include Messaging::Handle
+      include Messaging::StreamName
 
       dependency :clock, Clock::UTC
-      dependency :writer, EventStore::Messaging::Writer
+      dependency :writer, Messaging::Postgres::Write
       dependency :publish, ErrorTelemetryComponent::Publish
 
       category :error
 
       def configure_dependencies
         Clock::UTC.configure self
-        EventStore::Messaging::Writer.configure self
+        Messaging::Postgres::Write.configure self
         ErrorTelemetryComponent::Publish.configure self
       end
 

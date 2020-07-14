@@ -2,7 +2,7 @@ module ErrorTelemetryComponent
   module Messages
     module Events
       class Published
-        include EventStore::Messaging::Message
+        include Messaging::Message
 
         attribute :error_id
         attribute :time

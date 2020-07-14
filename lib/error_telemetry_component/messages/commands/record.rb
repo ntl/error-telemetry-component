@@ -2,7 +2,7 @@ module ErrorTelemetryComponent
   module Messages
     module Commands
       class Record
-        include EventStore::Messaging::Message
+        include Messaging::Message
 
         attribute :error_id
         attribute :time

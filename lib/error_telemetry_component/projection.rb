@@ -1,6 +1,6 @@
 module ErrorTelemetryComponent
   class Projection
-    include EventStore::EntityProjection
+    include EntityProjection
     include Messages::Events
 
     apply Recorded do |event|

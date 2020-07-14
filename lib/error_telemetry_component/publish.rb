@@ -1,6 +1,6 @@
 module ErrorTelemetryComponent
   class Publish
-    include EventStore::Messaging::StreamName
+    include Messaging::StreamName
     include Messages::Events
 
     dependency :telemetry, ::Telemetry
@@ -8,7 +8,7 @@ module ErrorTelemetryComponent
     dependency :clock, Clock::UTC
     dependency :raygun_post, RaygunClient::HTTP::Post
     dependency :store, Store
-    dependency :writer, EventStore::Messaging::Writer
+    dependency :writer, Messaging::Postgres::Write
 
     category :error
 
@@ -19,7 +19,7 @@ module ErrorTelemetryComponent
         Clock::UTC.configure instance
         RaygunClient::HTTP::Post.configure instance, :raygun_post
         Store.configure instance
-        EventStore::Messaging::Writer.configure instance
+        Messaging::Postgres::Write.configure instance
       end
     end
 
