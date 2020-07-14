@@ -8,14 +8,11 @@ module ErrorTelemetryComponent
         recorded_time = Controls::Time.reference
 
         entity = ErrorTelemetryComponent::Entity.new
-        SetAttributes.(
-          entity,
-          :id => error_id,
-          :error => error,
-          :hostname => hostname,
-          :recorded_time => recorded_time,
-          :published_time => published_time
-        )
+        entity.id = error_id
+        entity.error = error
+        entity.hostname = hostname
+        entity.recorded_time = recorded_time
+        entity.published_time = published_time
         entity
       end
 

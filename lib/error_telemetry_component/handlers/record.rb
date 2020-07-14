@@ -17,11 +17,11 @@ module ErrorTelemetryComponent
       end
 
       handle Messages::Commands::Record do |record|
-        error_id = command.error_id
+        error_id = record.error_id
 
         version = store.get_version(error_id)
 
-        if version != MessageStore::NoStream.version
+        if version != MessageStore::NoStream.name
           logger.info(tag: :ignored) { "Command ignored (Command: #{record.message_type}, Error ID: #{error_id})" }
           return
         end

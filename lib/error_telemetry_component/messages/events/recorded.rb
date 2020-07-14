@@ -5,12 +5,13 @@ module ErrorTelemetryComponent
         include Messaging::Message
         include Lapse
 
-        attribute :error_id
-        attribute :time
-        attribute :source
-        attribute :hostname
-        attribute :error
+        attribute :error_id, String
+        attribute :time, String
+        attribute :source, String
+        attribute :hostname, String
+        attribute :error, ErrorData
 
+=begin
         def self.build(data=nil)
           data ||= {}
           Transform::Read.instance(data, self)
@@ -19,11 +20,13 @@ module ErrorTelemetryComponent
         def to_h
           Transform::Write.raw_data(self)
         end
+=end
 
         def lapsed?(now)
           elapsed_milliseconds(now) > self.class.effective_milliseconds
         end
 
+=begin
         module Transformer
           def self.raw_data(instance)
             data = instance.attributes
@@ -48,6 +51,7 @@ module ErrorTelemetryComponent
             instance
           end
         end
+=end
       end
     end
   end

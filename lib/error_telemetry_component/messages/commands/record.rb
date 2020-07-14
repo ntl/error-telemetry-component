@@ -4,11 +4,11 @@ module ErrorTelemetryComponent
       class Record
         include Messaging::Message
 
-        attribute :error_id
-        attribute :time
-        attribute :source
-        attribute :hostname
-        attribute :error
+        attribute :error_id, String
+        attribute :time, String
+        attribute :source, String
+        attribute :hostname, String
+        attribute :error, ErrorData
 
         def transform_write(data)
           data[:error] = data.delete(:error).to_h
