@@ -13,12 +13,14 @@ context "Publish" do
 
     publish.(recorded_event)
 
-    test "Sends the error to Raygun" do
+    context "Raygun Service" do
       control_data = ErrorTelemetryComponent::Controls::RaygunData.example(time: time)
 
       posted = publish.raygun_post.posted?(control_data)
 
-      assert(posted)
+      test "Posted" do
+        assert(posted)
+      end
     end
 
     context "Published Event" do

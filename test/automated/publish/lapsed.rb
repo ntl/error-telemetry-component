@@ -15,10 +15,12 @@ context "Publish" do
 
     publish.(recorded_event)
 
-    test "Does not send the error to Raygun" do
+    context "Raygun Service" do
       posted = publish.raygun_post.posted?
 
-      refute(posted)
+      test "Not posted" do
+        refute(posted)
+      end
     end
 
     context "Lapsed Event" do
