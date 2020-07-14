@@ -12,21 +12,34 @@ Gem::Specification.new do |s|
 
   s.require_paths = ['lib']
 
-  s.files = [
-    'lib/error_telemetry_component/client.rb',
-    'lib/error_telemetry_component/client/record.rb',
-    'lib/error_telemetry_component/messages/commands/record.rb',
-    'lib/error_telemetry_component/host_info.rb',
-    'lib/error_telemetry_component/record.rb',
-    'lib/error_telemetry_component/controls/error.rb',
-    'lib/error_telemetry_component/controls/record_error.rb',
-    'lib/error_telemetry_component/controls/source.rb',
-    'lib/error_telemetry_component/controls/time.rb'
-  ]
+  files = Dir['lib/error_telemetry/**/*.rb']
+
+  files += Dir['lib/error_telemetry_component/{controls.rb,controls/**/*.rb}']
+
+  files << 'lib/error_telemetry_component/load.rb'
+
+  File.read('lib/error_telemetry_component/load.rb').each_line.map do |line|
+    next if line == "\n"
+
+    _, filename = line.split(/[[:blank:]]+/, 2)
+
+    filename.gsub!(/['"]/, '')
+    filename.strip!
+
+    filename = File.join('lib', "#{filename}.rb")
+
+    if File.exist?(filename)
+      files << filename
+    end
+  end
+
+  s.files = files
+
   s.platform = Gem::Platform::RUBY
   s.bindir = 'bin'
 
   s.add_dependency 'evt-messaging-postgres'
+  s.add_dependency 'evt-configure'
 
   s.add_dependency 'ntl-error_data'
 
