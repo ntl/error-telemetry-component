@@ -13,13 +13,12 @@ context "Publish" do
 
     publish.clock.now = now
 
-    raygun_post = publish.raygun_post
-    raygun_sink = RaygunClient::HTTP::Post.register_telemetry_sink(raygun_post)
-
     publish.(recorded_event)
 
     test "Does not send the error to Raygun" do
-      refute(raygun_sink.recorded_posted?)
+      posted = publish.raygun_post.posted?
+
+      refute(posted)
     end
 
     context "Lapsed Event" do

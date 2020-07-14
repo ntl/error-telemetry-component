@@ -11,17 +11,12 @@ context "Publish" do
 
     publish.clock.now = Clock.parse(time)
 
-    raygun_post = publish.raygun_post
-    raygun_sink = RaygunClient::HTTP::Post.register_telemetry_sink(raygun_post)
-
     publish.(recorded_event)
 
     test "Sends the error to Raygun" do
       control_data = ErrorTelemetryComponent::Controls::RaygunData.example(time: time)
 
-      posted = raygun_sink.posted? do |data|
-        data == control_data
-      end
+      posted = publish.raygun_post.posted?(control_data)
 
       assert(posted)
     end
