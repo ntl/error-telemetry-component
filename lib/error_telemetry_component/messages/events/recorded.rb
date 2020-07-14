@@ -11,47 +11,21 @@ module ErrorTelemetryComponent
         attribute :hostname, String
         attribute :error, ErrorData
 
-=begin
-        def self.build(data=nil)
-          data ||= {}
-          Transform::Read.instance(data, self)
-        end
-
-        def to_h
-          Transform::Write.raw_data(self)
-        end
-=end
-
         def lapsed?(now)
           elapsed_milliseconds(now) > self.class.effective_milliseconds
         end
 
-=begin
-        module Transformer
-          def self.raw_data(instance)
-            data = instance.attributes
+        def transform_write(data)
+          raw_error_data = data.delete(:error).to_h
 
-            error_raw_data = Transform::Write.raw_data(instance.error)
-            data[:error] = error_raw_data
-
-            data
-          end
-
-          def self.instance(raw_data)
-            instance = Recorded.new
-
-            SetAttributes.(instance, raw_data, exclude: :error)
-
-            error_raw_data = raw_data[:error]
-
-            if error_raw_data
-              instance.error = ErrorData.build(error_raw_data)
-            end
-
-            instance
-          end
+          data[:error] = raw_error_data
         end
-=end
+
+        def transform_read(data)
+          error_data = data.delete(:error)
+
+          data[:error] = ErrorData.build(error_data)
+        end
       end
     end
   end

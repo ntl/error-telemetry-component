@@ -11,10 +11,7 @@ module ErrorTelemetryComponent
         data.machine_name = recorded_event.hostname
         data.client = RaygunClient::Data::ClientInfo.build
 
-        raw_error_data = Casing::Underscore.(recorded_event.error)
-        error_data = ErrorData.build(raw_error_data)
-
-        data.error = error_data
+        data.error = recorded_event.error
 
         data.tags = Array(recorded_event.source)
         data.custom_data = { :error_id => recorded_event.error_id }

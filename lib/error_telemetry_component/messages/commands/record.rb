@@ -11,43 +11,16 @@ module ErrorTelemetryComponent
         attribute :error, ErrorData
 
         def transform_write(data)
-          data[:error] = data.delete(:error).to_h
-        end
-=begin
-        def self.build(data=nil)
-          data ||= {}
-          ::Transform::Read.instance(data, self)
+          raw_error_data = data.delete(:error).to_h
+
+          data[:error] = raw_error_data
         end
 
-        def to_h
-          ::Transform::Write.raw_data(self)
+        def transform_read(data)
+          error_data = data.delete(:error)
+
+          data[:error] = ErrorData.build(error_data)
         end
-
-        module Transformer
-          def self.raw_data(instance)
-            data = instance.attributes
-
-            error_raw_data = ::Transform::Write.raw_data(instance.error)
-            data[:error] = error_raw_data
-
-            data
-          end
-
-          def self.instance(raw_data)
-            instance = Record.new
-
-            SetAttributes.(instance, raw_data, exclude: :error)
-
-            error_raw_data = raw_data[:error]
-
-            if error_raw_data
-              instance.error = ErrorData.build(error_raw_data)
-            end
-
-            instance
-          end
-        end
-=end
       end
     end
   end

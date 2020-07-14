@@ -6,7 +6,8 @@ context "Record Message" do
 
     control_data = ErrorTelemetryComponent::Controls::Messages::Record.data
 
-    data = example.to_h
+    message_data = Transform::Write.(example, :message_data)
+    data = message_data.data
 
     assert(data == control_data)
   end
